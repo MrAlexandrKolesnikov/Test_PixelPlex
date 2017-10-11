@@ -5,11 +5,18 @@
  * @brief  main file for Test_PixelPlex function
  **/
 
-#include "iostream"
-#include <iomanip>
+/* Required headers for QT libraries. -------------------------------*/
 #include <QCoreApplication>
 #include <QFile>
 #include <QDebug>
+
+/* Required header files of standard libraries. ---------------------*/
+#include "iostream"
+#include <iomanip>
+
+/* Required Project Header Files. -----------------------------------*/
+#include "errorcodes.h"
+
 
 using namespace std;
 
@@ -36,10 +43,11 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationVersion("1.0");
     try
     {
-        if(argc < 2) throw 1;
-        if(!strcmp( argv[1] ,"-help")) printHelp();
+        if(argc < 2) throw BAD_CMD_LINE_PARAM;
+        if(!strcmp(argv[1], "-help")) printHelp();
+        throw BAD_CMD_LINE_PARAM;
     }
-    catch(int exception)
+    catch(ERROR_CODE exception)
     {
         switch(exception)
         {
