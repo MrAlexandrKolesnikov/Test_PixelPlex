@@ -55,7 +55,7 @@ static QByteArray deleteComments(QByteArray line)
                 else                                                                       // '/*...' comments
                 {
                     lineQString.replace(startMultiLineComment,
-                                        lineQString.length(),
+                                        lineQString.length() - startMultiLineComment,
                                         " ");
                 }
             }

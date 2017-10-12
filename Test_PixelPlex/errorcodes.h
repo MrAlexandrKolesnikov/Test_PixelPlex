@@ -15,7 +15,7 @@ typedef enum
     OPEN_FILE_ERROR                 ,/**<Error open input file                   */
     CREATE_FILE_ERROR               ,/**<Error create output file                */
     COMMENT_FILE_ERROR              ,/**<Error comments in file                  */
-    WRONG_FILE_TYPE                  /**<Error comments in file                  */
+    WRONG_FILE_TYPE                  /**<Wrong type of file                      */
 }ERROR_CODE;
 
 #endif // ERRORCODES_H

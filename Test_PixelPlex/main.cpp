@@ -19,7 +19,7 @@
 using namespace std;
 
 /**
- * @brief  Help information output function
+ * @brief  The function outputs help information
  * @param  none
  * @retval none
  */
