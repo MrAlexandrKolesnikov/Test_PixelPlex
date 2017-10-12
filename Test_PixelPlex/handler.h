@@ -5,8 +5,8 @@
  * @brief  header file for handler function
  **/
 
-#ifndef WORKER_H
-#define WORKER_H
+#ifndef HANDLER_H
+#define HANDLER_H
 
 /* Required headers for QT libraries. -------------------------------*/
 #include <QFile>
@@ -25,6 +25,6 @@
  * @param  mode - Overwriting an input file or creating a new
  * @retval none
  */
-void handler(QString filePath, bool mode);
+void handler(QString filePath);
 
-#endif // WORKER_H
+#endif

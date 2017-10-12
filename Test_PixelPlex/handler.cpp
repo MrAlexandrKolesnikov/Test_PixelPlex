@@ -21,7 +21,7 @@ static QByteArray deleteComments(QByteArray line)
     int startMultiLineComment = lineQString.indexOf("/*");
     int simpleComment = lineQString.indexOf("//");
 
-    if(simpleComment            != -1                                          &&         //just '//' in any part of line
+    if(simpleComment           != -1                                           &&         //just '//' in any part of line
        (endMultiLineComment    == -1 || endMultiLineComment > simpleComment)   &&
        (startMultiLineComment  == -1 || startMultiLineComment > simpleComment))
     {
@@ -35,7 +35,7 @@ static QByteArray deleteComments(QByteArray line)
         {
             if(simpleComment != -1                   &&                                   // '/* .. */ .. //'
                startMultiLineComment < simpleComment &&
-               simpleComment > endMultiLineComment     )
+               simpleComment > endMultiLineComment)
             {
 
                 lineQString.replace(simpleComment,
@@ -83,26 +83,20 @@ static QByteArray deleteComments(QByteArray line)
 /**
  * @brief  The function of executing the basic logic of working with files
  * @param  filePath - path to input file
- * @param  mode - Overwriting an input file or creating a new
  * @retval none
  */
-void handler(QString filePath, bool mode)
+void handler(QString filePath)
 {
     QFile InputFile(filePath);
     QFile OutFile(QFileInfo(InputFile).canonicalPath() + "/NO_COMMENTS_" + QFileInfo(InputFile).fileName());
-    if( mode )
-    {
-        if(!InputFile.open(QIODevice::ReadOnly)) throw OPEN_FILE_ERROR;
-        if(!OutFile.open(QIODevice::WriteOnly)) throw CREATE_FILE_ERROR;
-    }
-    else
-    {
-        if(!InputFile.open(QIODevice::ReadWrite)) throw OPEN_FILE_ERROR;
-    }
+
+    if(!InputFile.open(QIODevice::ReadOnly)) throw OPEN_FILE_ERROR;
+    if(!OutFile.open(QIODevice::WriteOnly)) throw CREATE_FILE_ERROR;
+
     while (!InputFile.atEnd())
     {
            QByteArray line = InputFile.readLine();
-           if(mode) OutFile.write(deleteComments(line));
+           OutFile.write(deleteComments(line));
     }
     InputFile.close();
     OutFile.close();
