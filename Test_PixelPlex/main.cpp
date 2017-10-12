@@ -51,13 +51,15 @@ int main(int argc, char *argv[])
     {
         switch(exception)
         {
-            case BAD_CMD_LINE_PARAM: cout<<"Bad parameters. For help use '-help'"<<endl;
+            case BAD_CMD_LINE_PARAM: cout<<"Bad parameters. For help use '-help'"                         <<endl;
             break;
-            case OPEN_FILE_ERROR:    cout<<"Error open input file"               <<endl;
+            case OPEN_FILE_ERROR:    cout<<"Error open input file"                                        <<endl;
             break;
-            case CREATE_FILE_ERROR:  cout<<"Error creating output file"          <<endl;
+            case CREATE_FILE_ERROR:  cout<<"Error creating output file"                                   <<endl;
             break;
-            case COMMENT_FILE_ERROR: cout<<"Error comments in input file"        <<endl;
+            case COMMENT_FILE_ERROR: cout<<"Error comments in input file"                                 <<endl;
+            break;
+            case WRONG_FILE_TYPE:    cout<<"Wrong type of file.Only *.cpp,*.hpp,*.c,*.h supported"        <<endl;
             break;
         }
     }

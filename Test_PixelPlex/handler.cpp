@@ -87,6 +87,13 @@ static QByteArray deleteComments(QByteArray line)
  */
 void handler(QString filePath)
 {
+    if(!filePath.endsWith(".cpp",Qt::CaseSensitive) &&
+       !filePath.endsWith(".hpp",Qt::CaseSensitive) &&
+       !filePath.endsWith(".c",Qt::CaseSensitive)   &&
+       !filePath.endsWith(".h",Qt::CaseSensitive))
+    {
+        throw WRONG_FILE_TYPE;
+    }
     QFile InputFile(filePath);
     QFile OutFile(QFileInfo(InputFile).canonicalPath() + "/NO_COMMENTS_" + QFileInfo(InputFile).fileName());
 
