@@ -9,6 +9,22 @@
 #include "handler.h"
 
 /**
+ * @brief  The function delete all comments from line
+ * @param  line - line of file in byte array
+ * @retval QString line without comments
+ */
+static QByteArray deleteComments(QByteArray line)
+{
+    static bool isMultiLineComment = false;
+    QString lineQString = line;
+    if(lineQString.indexOf("//") != -1)
+    {
+        lineQString.remove(lineQString.indexOf("//"),lineQString.length());
+    }
+    return lineQString.toLocal8Bit();
+}
+
+/**
  * @brief  The function of executing the basic logic of working with files
  * @param  filePath - path to input file
  * @param  mode - Overwriting an input file or creating a new
@@ -30,7 +46,7 @@ void handler(QString filePath, bool mode)
     while (!InputFile.atEnd())
     {
            QByteArray line = InputFile.readLine();
-           if(mode) OutFile.write(line);
+           if(mode) OutFile.write(deleteComments(line));
     }
     InputFile.close();
     OutFile.close();

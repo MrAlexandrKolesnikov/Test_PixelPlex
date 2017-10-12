@@ -21,7 +21,7 @@
 
 /**
  * @brief  The function of executing the basic logic of working with files
- * @param  filePath - path to file input file
+ * @param  filePath - path to input file
  * @param  mode - Overwriting an input file or creating a new
  * @retval none
  */
