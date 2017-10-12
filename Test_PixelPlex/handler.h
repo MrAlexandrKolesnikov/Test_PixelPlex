@@ -1,8 +1,8 @@
 /**
- * @file   worker.h
+ * @file   handler.h
  * @Author Kolesnikov Alexandr(mr.alexandr.kolesnikov@gmail.com)
  * @date   October, 2017
- * @brief  header file for worker function
+ * @brief  header file for handler function
  **/
 
 #ifndef WORKER_H

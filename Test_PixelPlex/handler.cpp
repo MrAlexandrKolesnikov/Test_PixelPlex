@@ -1,8 +1,8 @@
 /**
- * @file   worker.h
+ * @file   handler.h
  * @Author Kolesnikov Alexandr(mr.alexandr.kolesnikov@gmail.com)
  * @date   October, 2017
- * @brief  header file for worker function
+ * @brief  header file for handler function
  **/
 
 /* Required Project Header Files. -----------------------------------*/
@@ -11,15 +11,71 @@
 /**
  * @brief  The function delete all comments from line
  * @param  line - line of file in byte array
- * @retval QString line without comments
+ * @retval QByteArray line without comments in byte array
  */
 static QByteArray deleteComments(QByteArray line)
 {
     static bool isMultiLineComment = false;
     QString lineQString = line;
-    if(lineQString.indexOf("//") != -1)
+    int endMultiLineComment = lineQString.indexOf("*/");
+    int startMultiLineComment = lineQString.indexOf("/*");
+    int simpleComment = lineQString.indexOf("//");
+
+    if(simpleComment            != -1                                          &&         //just '//' in any part of line
+       (endMultiLineComment    == -1 || endMultiLineComment > simpleComment)   &&
+       (startMultiLineComment  == -1 || startMultiLineComment > simpleComment))
     {
-        lineQString.remove(lineQString.indexOf("//"),lineQString.length());
+        lineQString.replace(simpleComment,
+                            lineQString.length() - simpleComment - 1,                     // -1 because of '/n
+                            " ");
+    }
+    else
+    {
+        do
+        {
+            if(simpleComment != -1                   &&                                   // '/* .. */ .. //'
+               startMultiLineComment < simpleComment &&
+               simpleComment > endMultiLineComment     )
+            {
+
+                lineQString.replace(simpleComment,
+                                     lineQString.length() - simpleComment -1,
+                                     " ");
+            }
+            if(startMultiLineComment != -1)
+            {
+                isMultiLineComment = true;
+                if(endMultiLineComment != -1)                                              // '/*...*/' comments
+                {
+                    lineQString.replace(startMultiLineComment,
+                                        endMultiLineComment - startMultiLineComment + 2,   // add 2 becose length of '*/'
+                                        " ");
+                    isMultiLineComment = false;
+                }
+                else                                                                       // '/*...' comments
+                {
+                    lineQString.replace(startMultiLineComment,
+                                        lineQString.length(),
+                                        " ");
+                }
+            }
+            else if(isMultiLineComment && endMultiLineComment == -1)                       //comment line in a multi-line comment
+            {
+                lineQString.replace(0, lineQString.length(), " ");
+            }
+            else if(isMultiLineComment && endMultiLineComment != -1)                       // '...*/' end of multi line comments
+            {
+                lineQString.replace(0, endMultiLineComment + 2, " ");                      // add 2 becose length of '*/'
+                isMultiLineComment = false;
+            }
+            else if(!isMultiLineComment && endMultiLineComment != -1)                      // '..*/' without beginning '/*'
+            {
+                throw COMMENT_FILE_ERROR;
+            }
+            startMultiLineComment = lineQString.indexOf("/*");
+            endMultiLineComment = lineQString.indexOf("*/");
+        }
+        while (startMultiLineComment != -1 || endMultiLineComment != -1);                  //while for find all comments in line
     }
     return lineQString.toLocal8Bit();
 }

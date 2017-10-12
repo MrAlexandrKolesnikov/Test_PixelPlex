@@ -68,6 +68,9 @@ int main(int argc, char *argv[])
             case OPEN_FILE_ERROR:    cout<<"Error open input file"<<endl;
             break;
             case CREATE_FILE_ERROR:  cout<<"Error creating output file"<<endl;
+            break;
+            case COMMENT_FILE_ERROR: cout<<"Error comments in input file"<<endl;
+            break;
         }
     }
     return a.exec();
